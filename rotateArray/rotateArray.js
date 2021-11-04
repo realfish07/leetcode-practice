@@ -55,9 +55,10 @@ var rotate2 = function(nums, k) {
 
   const reverse = (nums, start = 0, end = nums.length - 1) => {
     while(start < end) {
-      let temp = nums[start];
-      nums[start++] = nums[end];
-      nums[end--] = temp;
+      // swap
+      nums[start] ^= nums[end]; // nums[start]: nums[start] ^ nums[end]
+      nums[end] ^= nums[start]; // nums[end]: nums[start]
+      nums[start++] ^= nums[end--]; // nums[start]: nums[end]
     }
   }
   reverse(nums);

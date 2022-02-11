@@ -25,24 +25,24 @@
  * - src != dst
  */
 
-/**
- * @param {number} n
- * @param {number[][]} flights
- * @param {number} src
- * @param {number} dst
- * @param {number} k
- * @return {number}
- */
-var findCheapestPrice = function(n, flights, src, dst, k) {
-  const dist = new Array(n).fill(Infinity);
-
+int findCheapestPrice(int n, int** flights, int flightsSize, int* flightsColSize, int src, int dst, int k){
+  int* dist = (int*)malloc(sizeof(int) * n);
+  memset(dist, 1, sizeof(int) * n);
   dist[src] = 0;
-  for (let i = 0; i <= k; i++) {
-    const temp = [...dist];
-    for (const flight of flights) {
-      if (flight[1] === src) continue;
-      dist[flight[1]] = Math.min(dist[flight[1]], temp[flight[0]] + flight[2]);
+
+  for (int i = 0; i <= k; i++) {
+    int* temp = (int*)malloc(sizeof(int) * n);
+    for (int j = 0; j < n; j++) {
+      temp[j] = dist[j];
     }
+    for (int j = 0; j < flightsSize; j++) {
+      int* flight = flights[j];
+      if (flight[1] == src) continue;
+      if (dist[flight[1]] > temp[flight[0]] + flight[2]) {
+        dist[flight[1]] = temp[flight[0]] + flight[2];
+      }
+    }
+    free(temp);
   }
-  return dist[dst] === Infinity ? -1 : dist[dst];
-};
+  return dist[dst] == 0x01010101 ? -1 : dist[dst];
+}
